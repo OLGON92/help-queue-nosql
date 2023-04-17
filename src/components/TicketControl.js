@@ -1,21 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NewTicketForm from "./NewTicketForm";
 import TicketList from "./TicketList";
 import TicketDetail from './TicketDetail';
 import EditTicketForm from './EditTicketForm';
-import React, { useState } from 'react';
+import db from './../firebase.js';
+import { collection, addDoc } from 'firebase/firestore';
 
 function TicketControl() {
   
-  /*constructor(props) {
-    super(props);
-    this.state = {
-      formVisibleOnPage: false,
-      mainTicketList: [], 
-      selectedTicket: null,
-      editing: false 
-    };
-  }*/
+  
   const [formVisibleOnPage, setFormVisibleOnPage] = useState(false);
   const [mainTicketList, setMainTicketList] = useState([]);
   const [selectedTicket, setSelectedTicket] = useState(null);
@@ -31,12 +24,10 @@ function TicketControl() {
     }
   }
 
-  const handleAddingNewTicketToList = (newTicket) => {
-
-    const newMainTicketList = mainTicketList.concat(newTicket);
-    
-    setMainTicketList(newMainTicketList);
-    setFormVisibleOnPage(false)
+  const handleAddingNewTicketToList = async (newTicketData) => {
+    const collectionRef = collection(db, "tickets");
+    await addDoc(collectionRef, newTicketData);
+    setFormVisibleOnPage(false);
   }
   
   const handleChangingSelectedTicket = (id) => {
