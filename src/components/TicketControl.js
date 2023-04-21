@@ -74,6 +74,13 @@ function TicketControl() {
     setEditing(false);
     setSelectedTicket(null);
   }
+    if (auth.currentUser == null) {
+      return (
+        <React.Fragment>
+          <h1>You must be signed in to access the queue.</h1>
+        </React.Fragment>
+      )
+    } else if (auth.currentUser != null) {
 
     let currentlyVisibleState = null;
     let buttonText = null;
@@ -113,6 +120,7 @@ function TicketControl() {
         {error ? null : <button onClick={handleClick}>{buttonText}</button>}
       </React.Fragment>
     );
+  }
 }
 
 export default TicketControl;
