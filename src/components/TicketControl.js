@@ -12,6 +12,7 @@ function TicketControl() {
     const [mainTicketList, setMainTicketList] = useState([]);
     const [selectedTicket, setSelectedTicket] = useState(null);
     const [editing, setEditing] = useState(false);
+    const [error, setError] = useState(null);
 
   useEffect(() => {
     const unSubscribe = onSnapshot(
@@ -24,7 +25,7 @@ function TicketControl() {
             //location: doc.data().location,
             //issue: doc.data().issue,
             //Spread operator shortens the above code
-            ... doc.data(),
+            ...doc.data(),
             id: doc.id 
           });
         });
