@@ -4,7 +4,7 @@ import TicketList from "./TicketList";
 import TicketDetail from './TicketDetail';
 import EditTicketForm from './EditTicketForm';
 import { db, auth } from './../firebase.js';
-import { collection, addDoc, doc, updateDoc, onSnapshot, deleteDoc } from 'firebase/firestore';
+import { collection, addDoc, doc, updateDoc, onSnapshot, deleteDoc, query, orderBy } from 'firebase/firestore';
 import { formatDistanceToNow } from "date-fns";
 
 function TicketControl() {
@@ -16,8 +16,12 @@ function TicketControl() {
     const [error, setError] = useState(null);
 
   useEffect(() => {
-    const unSubscribe = onSnapshot(
+    const queryByTimestamp = query(
       collection(db, "tickets"),
+      orderBy("timeOpen")
+    );
+    const unSubscribe = onSnapshot(
+      queryByTimestamp,
       (querySnapshot) => {
         const tickets = [];
         querySnapshot.forEach((doc) => {
